@@ -1,24 +1,27 @@
-import WikiArticleViewer from "@/components/wiki-article-viewer";
+import WikiArticleViewer from '@/components/wiki-article-viewer';
+import { auth } from '@/lib/auth/server';
 
 interface ViewArticlePageProps {
-  params: Promise<{
-    id: string;
-  }>;
+	params: Promise<{
+		id: string;
+	}>;
 }
 
 export default async function ViewArticlePage({
-  params,
+	params,
 }: ViewArticlePageProps) {
-  const { id } = await params;
+	const { id } = await params;
+	const { data: session } = await auth.getSession();
 
-  // Mock permission check - in a real app, this would come from auth/user context
-  const canEdit = true; // Set to true for demonstration
+	// Mock permission check - users can edit if they're signed in
+	// TODO: Implement real permission logic based on article ownership or roles
+	const canEdit = !!session;
 
-  // Mock article data - in a real app, this would be fetched from an API
-  const mockArticle = {
-    id: +id,
-    title: "Welcome to WikiFlow",
-    content: `# Getting Started with WikiFlow
+	// Mock article data - in a real app, this would be fetched from an API
+	const mockArticle = {
+		id: +id,
+		title: 'Welcome to WikiFlow',
+		content: `# Getting Started with WikiFlow
 
 Welcome to your personal wiki system! This is a comprehensive guide to help you understand how to use WikiFlow effectively.
 
@@ -101,10 +104,10 @@ Images can be embedded directly in your articles and will be displayed beautiful
 If you encounter any issues or have questions about using WikiFlow, don't hesitate to reach out to our support team or check the documentation.
 
 Happy writing! 🚀`,
-    author: "Admin User",
-    createdAt: "2024-01-15",
-    imageUrl: "/placeholder-image.svg", // Using SVG placeholder for demonstration
-  };
+		author: 'Admin User',
+		createdAt: '2024-01-15',
+		imageUrl: '/placeholder-image.svg', // Using SVG placeholder for demonstration
+	};
 
-  return <WikiArticleViewer article={mockArticle} canEdit={canEdit} />;
+	return <WikiArticleViewer article={mockArticle} canEdit={canEdit} />;
 }
