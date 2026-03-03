@@ -7,17 +7,18 @@ import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const router = useRouter();
+  const router = useRouter();
 
-	return (
-		<NeonAuthUIProvider
-			authClient={authClient}
-			social={{ providers: ['google', 'github'] }}
-			navigate={router.push}
-			replace={router.replace}
-			onSessionChange={router.refresh}
-			Link={Link}>
-			{children}
-		</NeonAuthUIProvider>
-	);
+  return (
+    <NeonAuthUIProvider
+      authClient={authClient}
+      social={{ providers: ['google', 'github'] }}
+      navigate={router.push}
+      replace={router.replace}
+      onSessionChange={router.refresh}
+      Link={Link}
+    >
+      {children}
+    </NeonAuthUIProvider>
+  );
 }

@@ -53,12 +53,8 @@
           "name": "comments_author_id_usersSync_id_fk",
           "tableFrom": "comments",
           "tableTo": "usersSync",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -66,12 +62,8 @@
           "name": "comments_mod_id_mods_id_fk",
           "tableFrom": "comments",
           "tableTo": "mods",
-          "columnsFrom": [
-            "mod_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mod_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -171,12 +163,8 @@
           "name": "mods_author_id_usersSync_id_fk",
           "tableFrom": "mods",
           "tableTo": "usersSync",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -186,9 +174,7 @@
         "mods_slug_unique": {
           "name": "mods_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},

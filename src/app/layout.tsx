@@ -7,53 +7,55 @@ import { AuthProvider } from '@/components/providers/auth-provider';
 import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 
 const nunitoSans = Nunito_Sans({
-	variable: '--font-nunito-sans',
-	subsets: ['latin'],
-	weight: ['400', '500', '600', '700'],
+  variable: '--font-nunito-sans',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 const plexMono = IBM_Plex_Mono({
-	variable: '--font-plex-mono',
-	subsets: ['latin'],
-	weight: ['400', '500', '600', '700'],
+  variable: '--font-plex-mono',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	const pathname = usePathname();
-	const isAuthOrAccountPage =
-		/^\/auth(\/|$)/.test(pathname) || /^\/account(\/|$)/.test(pathname);
+  const pathname = usePathname();
+  const isAuthOrAccountPage =
+    /^\/auth(\/|$)/.test(pathname) || /^\/account(\/|$)/.test(pathname);
 
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${nunitoSans.variable} ${plexMono.variable} font-sans antialiased h-screen`}>
-				<AuthProvider>
-					<NavBar />
-					<div
-						className={`mx-auto w-full max-w-6xl pt-20 px-4 gap-10 ${!isAuthOrAccountPage ? 'flex flex-row' : ''}`}>
-						<div className="block flex-2">{children}</div>
-						{/* TODO: Turn aside into a portal */}
-						{!isAuthOrAccountPage && (
-							<aside className="flex-1">
-								<Card className="p-4 mb-6">
-									<CardTitle className="text-lg font-semibold mb-2">
-										Welcome to ModMasters!
-									</CardTitle>
-									<CardDescription>
-										Discover and share mods for your favorite games. Browse our
-										collection, read reviews, and join the community of modders
-										and gamers.
-									</CardDescription>
-								</Card>
-							</aside>
-						)}
-					</div>
-				</AuthProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${nunitoSans.variable} ${plexMono.variable} font-sans antialiased h-screen`}
+      >
+        <AuthProvider>
+          <NavBar />
+          <div
+            className={`mx-auto w-full max-w-6xl pt-20 px-4 gap-10 ${!isAuthOrAccountPage ? 'flex flex-row' : ''}`}
+          >
+            <div className="block flex-2">{children}</div>
+            {/* TODO: Turn aside into a portal */}
+            {!isAuthOrAccountPage && (
+              <aside className="flex-1">
+                <Card className="p-4 mb-6">
+                  <CardTitle className="text-lg font-semibold mb-2">
+                    Welcome to Modmasters!
+                  </CardTitle>
+                  <CardDescription>
+                    Discover and share mods for your favorite games. Browse our
+                    collection, read reviews, and join the community of modders
+                    and gamers.
+                  </CardDescription>
+                </Card>
+              </aside>
+            )}
+          </div>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }

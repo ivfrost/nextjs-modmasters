@@ -3,21 +3,21 @@ import type { NextConfig } from 'next';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-	turbopack: {
-		root: dirname(__filename),
-	},
-	images: {
-		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'placehold.co',
-			},
-			{
-				protocol: 'https',
-				hostname: 'media.moddb.com',
-			},
-		],
-	},
+  turbopack: {
+    root: dirname(__filename),
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.moddb.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

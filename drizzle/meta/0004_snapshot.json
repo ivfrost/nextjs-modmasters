@@ -53,12 +53,8 @@
           "name": "addon_comments_author_id_usersSync_id_fk",
           "tableFrom": "addon_comments",
           "tableTo": "usersSync",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -66,12 +62,8 @@
           "name": "addon_comments_addon_id_addons_id_fk",
           "tableFrom": "addon_comments",
           "tableTo": "addons",
-          "columnsFrom": [
-            "addon_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["addon_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -182,12 +174,8 @@
           "name": "addons_author_id_usersSync_id_fk",
           "tableFrom": "addons",
           "tableTo": "usersSync",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -195,12 +183,8 @@
           "name": "addons_mod_id_mods_id_fk",
           "tableFrom": "addons",
           "tableTo": "mods",
-          "columnsFrom": [
-            "mod_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mod_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -210,9 +194,7 @@
         "addons_slug_unique": {
           "name": "addons_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
@@ -268,12 +250,8 @@
           "name": "mod_comments_author_id_usersSync_id_fk",
           "tableFrom": "mod_comments",
           "tableTo": "usersSync",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -281,12 +259,8 @@
           "name": "mod_comments_mod_id_mods_id_fk",
           "tableFrom": "mod_comments",
           "tableTo": "mods",
-          "columnsFrom": [
-            "mod_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mod_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -393,9 +367,7 @@
         "mods_slug_unique": {
           "name": "mods_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
