@@ -8,6 +8,34 @@
       "when": 1772490215010,
       "tag": "0000_ambiguous_jasper_sitwell",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1772496363108,
+      "tag": "0001_warm_boom_boom",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1772496519134,
+      "tag": "0002_nosy_lady_ursula",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1772533006155,
+      "tag": "0003_giant_mentallo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1772534105985,
+      "tag": "0004_optimal_paper_doll",
+      "breakpoints": true
     }
   ]
 }

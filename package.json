@@ -8,7 +8,10 @@
 		"build": "next build --turbopack",
 		"start": "next start",
 		"lint": "biome check",
-		"format": "biome format --write"
+		"format": "biome format --write",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:seed": "tsx src/db/seed.ts"
 	},
 	"dependencies": {
 		"@better-fetch/fetch": "^1.1.21",
@@ -25,6 +28,7 @@
 		"drizzle-orm": "^0.45.1",
 		"lucide-react": "^0.544.0",
 		"next": "^16.0.1",
+		"puppeteer": "^24.37.5",
 		"radix-ui": "^1.4.3",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
@@ -42,7 +46,18 @@
 		"drizzle-kit": "^0.31.9",
 		"drizzle-seed": "^0.3.1",
 		"tailwindcss": "^4",
+		"tsx": "^4.21.0",
 		"tw-animate-css": "^1.3.8",
 		"typescript": "^5"
-	}
+	},
+	"description": "This project is the result of applying the concepts learned in the [Fullstack Next.js v4 course by Brian Holt for Frontend Masters](https://frontendmasters.com/courses/fullstack-app-next-v4/). While the original project consisted of a simple wiki page, this project adapts those concepts to a modding website, similar in concept to moddb.com, where users can create and share mods for a game. It uses `02-complete-ui` from the [course project repo](https://github.com/btholt/fullstack-next-wiki) as a starting point and builds upon it to create a more complex application.",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com-ivfrost:ivfrost/nextjs-modmasters.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module"
 }

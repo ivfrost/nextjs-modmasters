@@ -1,10 +1,10 @@
 'use client';
-import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import { usePathname } from 'next/navigation';
 import { NavBar } from '@/components/nav/nav-bar';
 import { AuthProvider } from '@/components/providers/auth-provider';
+import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 
 const nunitoSans = Nunito_Sans({
 	variable: '--font-nunito-sans',
@@ -39,15 +39,16 @@ export default function RootLayout({
 						{/* TODO: Turn aside into a portal */}
 						{!isAuthOrAccountPage && (
 							<aside className="flex-1">
-								<div className="p-4 bg-muted rounded-md">
-									<h2 className="text-lg font-semibold mb-2">
-										Welcome to Modmasters!
-									</h2>
-									<p className="text-sm text-muted-foreground">
-										Discover, create, and share mods for your favorite games.
-										Join the community and unleash your creativity!
-									</p>
-								</div>
+								<Card className="p-4 mb-6">
+									<CardTitle className="text-lg font-semibold mb-2">
+										Welcome to ModMasters!
+									</CardTitle>
+									<CardDescription>
+										Discover and share mods for your favorite games. Browse our
+										collection, read reviews, and join the community of modders
+										and gamers.
+									</CardDescription>
+								</Card>
 							</aside>
 						)}
 					</div>

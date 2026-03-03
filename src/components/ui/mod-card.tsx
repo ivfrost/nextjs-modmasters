@@ -1,4 +1,11 @@
-import { StarIcon } from 'lucide-react';
+import {
+	ArrowDownToLine,
+	ArrowRight,
+	ArrowRightCircle,
+	ArrowRightFromLine,
+	ArrowRightSquare,
+	MessageCircle,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
@@ -10,62 +17,84 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import type { ModCardProps } from '@/types/schemas';
+import { getTimeSince } from '@/utils/time';
 
 export function ModCard(props: ModCardProps) {
 	const {
 		title,
-		summary,
-		author,
+		content,
 		category,
 		updatedAt,
 		imageUrl,
-		rating,
+		downloads,
+		comments,
 		href,
 	} = props;
 
 	return (
-		<Card className="relative w-full overflow-hidden hover:shadow-lg transition-shadow py-0">
-			<div className="flex flex-row gap-4 p-4">
-				<div className="relative w-64 aspect-video shrink-0 rounded-lg overflow-hidden">
+		<Card className="relative w-full flex flex-row gap-4 h-42 px-4 py-4">
+			<div className="w-45 relative aspect-video shrink-0 rounded-md overflow-hidden shadow-sm">
+				{imageUrl ?
 					<Image
-						src={imageUrl ?? 'https://placehold.co/300x200?text=No+Image'}
+						src={imageUrl}
 						unoptimized={true}
 						alt={title}
-						className="w-full h-full object-cover"
-						width={320}
-						height={180}
+						fill
+						className="h-full object-cover"
 					/>
-				</div>
-				<div className="flex flex-col flex-1 gap-3">
-					<div className="flex items-start justify-between gap-4">
-						<Badge variant="outline">{category}</Badge>
-						{rating && (
-							<div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-								<StarIcon
-									size={14}
-									className="fill-yellow-400 stroke-yellow-400"
-								/>
-								<span>{rating}</span>
-							</div>
+				:	<Image
+						src="https://placehold.co/400x225?text=No+Image"
+						unoptimized={true}
+						alt="No image available"
+						fill
+						className="w-full h-full object-cover"
+					/>
+				}
+			</div>
+			<div className="flex flex-col gap-2 py-2">
+				<CardHeader className="flex flex-col gap-2 p-0!">
+					<div className="flex w-full justify-between">
+						{category && (
+							<Badge variant="outline" className="leading-tight h-fit">
+								{category}
+							</Badge>
 						)}
-					</div>
-					<CardTitle className="text-md line-clamp-2">{title}</CardTitle>
-					<CardDescription className="line-clamp-2 flex-1">
-						{summary}
-					</CardDescription>
-					<div className="flex items-center justify-between mt-auto">
-						<div className="flex items-center gap-2 text-xs text-muted-foreground">
-							<span className="font-medium text-sm">{author}</span>
-							<span>•</span>
-							<span>{updatedAt}</span>
+						<div className="flex items-center gap-2 pr-2">
+							<div className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
+								<MessageCircle
+									strokeWidth={2.2}
+									size={13}
+									className="stroke-neutral-400 mr-0.5"
+								/>
+								<span>{comments}</span>
+							</div>
+							<div className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
+								<ArrowDownToLine
+									size={14}
+									className="stroke-neutral-400 mr-0.5"
+								/>
+								<span>{downloads}</span>
+							</div>
 						</div>
+					</div>
+					<CardTitle>{title}</CardTitle>
+				</CardHeader>
+				<CardDescription className="line-clamp-2 grow text-xs md:text-sm text-muted-foreground mb-1 md:mb-2 min-h-0">
+					{content}
+				</CardDescription>
+				<CardFooter className="flex items-center justify-between mt-auto pt-1 p-0">
+					<div className="flex items-center gap-1 text-xs text-neutral-500">
+						<span>{getTimeSince(updatedAt)}</span>
+					</div>
+					{href && (
 						<Link
 							href={href}
-							className="text-sm font-medium text-primary hover:underline shrink-0">
-							View Details →
+							className="text-xs md:text-sm font-medium text-blue-500! hover:underline shrink-0 flex items-center">
+							Learn More
+							<ArrowRight size={14} className="ml-1" />
 						</Link>
-					</div>
-				</div>
+					)}
+				</CardFooter>
 			</div>
 		</Card>
 	);

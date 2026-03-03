@@ -4,40 +4,22 @@ import { Calendar, ChevronRight, Edit, Home, Trash, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import z from 'zod';
 import { deleteModForm } from '@/app/actions/mods';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { ModCardPropSchema } from '@/types/schemas';
+import { formatDate } from '@/utils/time';
 
-interface ViewerArticle {
-	title: string;
-	author: string | null;
-	id: number;
-	content: string;
-	createdAt: string;
-	imageUrl?: string | null;
-}
+const ModViewerSchema = ModCardPropSchema.extend({
+	canEdit: z.boolean(),
+});
+type ModViewerProps = z.infer<typeof ModViewerSchema>;
 
-interface WikiArticleViewerProps {
-	article: ViewerArticle;
-	canEdit?: boolean;
-	pageviews?: number | null;
-}
-
-export default function WikiArticleViewer({
-	article,
-	canEdit = false,
-}: WikiArticleViewerProps) {
-	// Format date for display
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-		});
-	};
-
+export default function ModViewer(props: ModViewerProps) {
+	const { id, title, content, category, createdAt, imageUrl, href, canEdit } =
+		props;
 	return (
 		<div className="container mx-auto px-4 py-8 max-w-4xl">
 			{/* Breadcrumb Navigation */}
@@ -49,36 +31,30 @@ export default function WikiArticleViewer({
 					Home
 				</Link>
 				<ChevronRight className="h-4 w-4" />
-				<span className="text-foreground font-medium">{article.title}</span>
+				<span className="text-foreground font-medium">{title}</span>
 			</nav>
 
 			{/* Article Header */}
 			<div className="flex justify-between items-start mb-6">
 				<div className="flex-1">
-					<h1 className="text-4xl font-bold text-foreground mb-4">
-						{article.title}
-					</h1>
+					<h1 className="text-4xl font-bold text-foreground mb-4">{title}</h1>
 
 					{/* Article Metadata */}
 					<div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
 						<div className="flex items-center">
-							<User className="h-4 w-4 mr-1" />
-							<span>By {article.author ?? 'Unknown'}</span>
-						</div>
-						<div className="flex items-center">
 							<Calendar className="h-4 w-4 mr-1" />
-							<span>{formatDate(article.createdAt)}</span>
+							<span>{formatDate(createdAt)}</span>
 						</div>
 						<div className="flex items-center">
-							<Badge variant="secondary">Article</Badge>
+							<Badge variant="secondary">{category}</Badge>
 						</div>
 					</div>
 				</div>
 
 				{/* Edit Button - Only shown if user has edit permissions */}
-				{canEdit && (
+				{canEdit && href && (
 					<div className="ml-4 flex items-center gap-2">
-						<Link href={`/wiki/edit/${article.id}`} className="cursor-pointer">
+						<Link href={href} className="cursor-pointer">
 							<Button variant="outline" className="cursor-pointer">
 								<Edit className="h-4 w-4 mr-2" />
 								Edit Article
@@ -86,8 +62,8 @@ export default function WikiArticleViewer({
 						</Link>
 
 						{/* Delete form calls the server action wrapper */}
-						<form action={deleteArticleForm}>
-							<input type="hidden" name="id" value={String(article.id)} />
+						<form action={deleteModForm}>
+							<input type="hidden" name="id" value={String(id)} />
 							<Button
 								type="submit"
 								variant="destructive"
@@ -104,12 +80,12 @@ export default function WikiArticleViewer({
 			<Card>
 				<CardContent className="pt-6">
 					{/* Article Image - Display if exists */}
-					{article.imageUrl && (
+					{imageUrl && (
 						<div className="mb-8">
 							<div className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden">
 								<Image
-									src={article.imageUrl}
-									alt={`Image for ${article.title}`}
+									src={imageUrl}
+									alt={`Image for ${title}`}
 									fill
 									className="object-cover"
 									priority
@@ -203,7 +179,7 @@ export default function WikiArticleViewer({
 									<td className="border border-border px-4 py-2">{children}</td>
 								),
 							}}>
-							{article.content}
+							{content}
 						</ReactMarkdown>
 					</div>
 				</CardContent>
@@ -215,17 +191,17 @@ export default function WikiArticleViewer({
 					<Button variant="outline">← Back to Articles</Button>
 				</Link>
 
-				{canEdit && (
+				{canEdit && href && (
 					<div className="flex items-center gap-2">
-						<Link href={`/wiki/edit/${article.id}`} className="cursor-pointer">
+						<Link href={href} className="cursor-pointer">
 							<Button className="cursor-pointer">
 								<Edit className="h-4 w-4 mr-2" />
 								Edit This Article
 							</Button>
 						</Link>
 
-						<form action={deleteArticleForm}>
-							<input type="hidden" name="id" value={String(article.id)} />
+						<form action={deleteModForm}>
+							<input type="hidden" name="id" value={String(id)} />
 							<Button
 								type="submit"
 								variant="destructive"

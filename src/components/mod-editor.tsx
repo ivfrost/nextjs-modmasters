@@ -14,7 +14,7 @@ interface WikiEditorProps {
 	initialTitle?: string;
 	initialContent?: string;
 	isEditing?: boolean;
-	articleId?: string;
+	modId?: number;
 }
 
 interface FormData {
@@ -32,7 +32,7 @@ export default function ModEditor({
 	initialTitle = '',
 	initialContent = '',
 	isEditing = false,
-	articleId,
+	modId: articleId,
 }: WikiEditorProps) {
 	const [title, setTitle] = useState(initialTitle);
 	const [content, setContent] = useState(initialContent);
