@@ -1,48 +1,83 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1772490215010,
-      "tag": "0000_ambiguous_jasper_sitwell",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1772496363108,
-      "tag": "0001_warm_boom_boom",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1772496519134,
-      "tag": "0002_nosy_lady_ursula",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1772533006155,
-      "tag": "0003_giant_mentallo",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1772534105985,
-      "tag": "0004_optimal_paper_doll",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1772554189520,
-      "tag": "0005_spooky_thunderball",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1772490215010,
+			"tag": "0000_ambiguous_jasper_sitwell",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1772496363108,
+			"tag": "0001_warm_boom_boom",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1772496519134,
+			"tag": "0002_nosy_lady_ursula",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1772533006155,
+			"tag": "0003_giant_mentallo",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1772534105985,
+			"tag": "0004_optimal_paper_doll",
+			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1772554189520,
+			"tag": "0005_spooky_thunderball",
+			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1772710809539,
+			"tag": "0006_nifty_living_mummy",
+			"breakpoints": true
+		},
+		{
+			"idx": 7,
+			"version": "7",
+			"when": 1772718200000,
+			"tag": "0007_quaint_vector",
+			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "7",
+			"when": 1772713696661,
+			"tag": "0008_blushing_black_panther",
+			"breakpoints": true
+		},
+		{
+			"idx": 9,
+			"version": "7",
+			"when": 1772714689899,
+			"tag": "0009_talented_raider",
+			"breakpoints": true
+		},
+		{
+			"idx": 10,
+			"version": "7",
+			"when": 1772722600000,
+			"tag": "0010_silent_sync_cleanup",
+			"breakpoints": true
+		}
+	]
 }
