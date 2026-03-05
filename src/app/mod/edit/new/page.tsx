@@ -6,20 +6,15 @@ import { auth } from '@/lib/auth/server';
 export const dynamic = 'force-dynamic';
 
 export default async function NewArticlePage() {
-  const { data: session } = await auth.getSession();
+	const { data: session } = await auth.getSession();
 
-  if (!session) {
-    return (
-      <div className="container p-4 md:p-6">
-        <p className="text-center text-lg text-gray-500">
-          You must be signed in to create a new wiki article.
-        </p>
-      </div>
-    );
-  }
-  return (
-    <SignedIn>
-      <ModEditor isEditing={false} />
-    </SignedIn>
-  );
+	if (!session) {
+		return (
+			<div className="container p-4 md:p-6">
+				<p className="text-center text-lg text-gray-500">
+					You must be signed in to create a new wiki article.
+				</p>
+			</div>
+		);
+	}
 }
