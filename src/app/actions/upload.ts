@@ -5,51 +5,51 @@ import { put } from '@vercel/blob';
 // TODO: Replace placeholder logic with real Cloudinary (or other) upload
 
 export type UploadedFile = {
-	url: string;
-	size: number;
-	type: string;
-	filename?: string;
+  url: string;
+  size: number;
+  type: string;
+  filename?: string;
 };
 
 export async function uploadFile(formData: FormData): Promise<UploadedFile> {
-	// Basic validation constants
-	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-	const ALLOWED = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  // Basic validation constants
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+  const ALLOWED = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-	const files = formData.getAll('files') as File[];
-	const file = files[0];
+  const files = formData.getAll('files') as File[];
+  const file = files[0];
 
-	console.log(
-		'📤 uploadFile called, received files:',
-		files.map((f) => ({ name: f.name, size: f.size, type: f.type })),
-	);
+  console.log(
+    '📤 uploadFile called, received files:',
+    files.map((f) => ({ name: f.name, size: f.size, type: f.type })),
+  );
 
-	if (!file) {
-		throw new Error('No file provided');
-	}
+  if (!file) {
+    throw new Error('No file provided');
+  }
 
-	if (!ALLOWED.includes(file.type)) {
-		throw new Error('Invalid file type');
-	}
+  if (!ALLOWED.includes(file.type)) {
+    throw new Error('Invalid file type');
+  }
 
-	if (file.size > MAX_FILE_SIZE) {
-		throw new Error('File too large');
-	}
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error('File too large');
+  }
 
-	try {
-		const blob = await put(file.name, file, {
-			access: 'public',
-			addRandomSuffix: true,
-		});
+  try {
+    const blob = await put(file.name, file, {
+      access: 'public',
+      addRandomSuffix: true,
+    });
 
-		return {
-			url: blob.url ?? '',
-			size: file.size,
-			type: file.type,
-			filename: blob.pathname ?? file.name,
-		};
-	} catch (e) {
-		console.error('❌ Vercel blob upload error', e);
-		throw new Error('Upload failed');
-	}
+    return {
+      url: blob.url ?? '',
+      size: file.size,
+      type: file.type,
+      filename: blob.pathname ?? file.name,
+    };
+  } catch (e) {
+    console.error('❌ Vercel blob upload error', e);
+    throw new Error('Upload failed');
+  }
 }

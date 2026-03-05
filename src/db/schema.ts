@@ -5,7 +5,7 @@ export * from './schema.migrations';
 const neonAuth = pgSchema('neon_auth');
 
 export const usersSync = neonAuth.table('user', {
-	id: uuid('id').primaryKey(),
-	email: text('email'),
-	name: text('name'),
+  id: uuid('id').primaryKey(),
+  email: text('email'),
+  name: text('name'),
 });
