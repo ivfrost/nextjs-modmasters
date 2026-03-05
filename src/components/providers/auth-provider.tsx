@@ -10,7 +10,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <NeonAuthUIProvider
-      authClient={authClient}
+      authClient={authClient as any}
       social={{ providers: ['google', 'github'] }}
       navigate={router.push}
       replace={router.replace}
