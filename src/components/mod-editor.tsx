@@ -66,7 +66,7 @@ export default function ModEditor(props: ModEditorProps) {
 			return;
 		}
 
-		toast.error(actionState.message);
+		toast.error(actionState.message, { position: 'top-center' });
 	}, [actionState, router]);
 
 	// Validate form

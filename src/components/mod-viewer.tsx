@@ -1,4 +1,4 @@
-import { Calendar, ChevronRight, Edit, Home, Trash } from 'lucide-react';
+import { ChevronRight, Edit, Home, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';

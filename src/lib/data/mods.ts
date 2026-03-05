@@ -1,9 +1,16 @@
 import { eq } from 'drizzle-orm';
-// import { usersSync } from 'drizzle-orm/neon';
+import redis from '@/cache';
 import db from '@/db/index';
 import { mods } from '@/db/schema';
 
 export async function getMods() {
+	const cached = await redis.get('mods:all');
+	if (cached) {
+		console.log('🟢 Get mods cache hit');
+		return cached;
+	}
+	console.log('🟡 Get mods cache miss');
+
 	const response = await db
 		.select({
 			id: mods.id,
@@ -20,6 +27,10 @@ export async function getMods() {
 			updatedAt: mods.updatedAt,
 		})
 		.from(mods);
+
+	redis.set('mods:all', response, {
+		ex: 60,
+	});
 
 	return response.map((mod) => ({
 		...mod,

@@ -1,5 +1,6 @@
 'use server';
 import { eq } from 'drizzle-orm';
+import redis from '@/cache';
 import db from '@/db';
 import { mods } from '@/db/schema';
 import { auth } from '@/lib/auth/server';
@@ -40,6 +41,8 @@ export async function createMod(data: CreateModRequest) {
 		console.error('insert issue', e);
 		// send to observability platform
 	}
+
+	redis.del('mods:all');
 	return { succes: true, message: 'Mod created successfully' };
 }
 
@@ -65,9 +68,9 @@ export async function updateMod(
 				throw new Error('Invalid existing image URL');
 			}
 			imageUrl =
-				typeof existingImageUrl === 'string' && existingImageUrl.length > 0
-					? existingImageUrl
-					: undefined;
+				typeof existingImageUrl === 'string' && existingImageUrl.length > 0 ?
+					existingImageUrl
+				:	undefined;
 		} else {
 			const uploadFormData = new FormData();
 			uploadFormData.append('files', firstFile);
