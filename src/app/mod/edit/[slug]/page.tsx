@@ -1,9 +1,4 @@
 import ModEditor from '@/components/mod-editor';
-import {
-	SidebarPortal,
-	SidebarSlot,
-} from '@/components/sidebar/sidebar-portal';
-import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { authorizeModEdit } from '@/db/authz';
 import { auth } from '@/lib/auth/server';
 import { getModBySlug } from '@/lib/data/mods';
@@ -37,6 +32,7 @@ export default async function EditArticlePage({
 		<ModEditor
 			initialTitle={mod.title}
 			initialContent={mod.content}
+			initialImageUrl={mod.imageUrl ?? ''}
 			isEditing={true}
 			modId={mod.id}
 			slug={mod.slug}

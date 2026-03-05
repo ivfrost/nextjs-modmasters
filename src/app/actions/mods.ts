@@ -9,6 +9,7 @@ import {
 	UpdateModRequestSchema,
 } from '@/types/api';
 import { slugify } from '@/utils/slugify';
+import { uploadFile } from './upload';
 
 export interface UpdateModActionState {
 	success: boolean;
@@ -30,6 +31,7 @@ export async function createMod(data: CreateModRequest) {
 			slug: slugify(data.title),
 			authorId: session.user.id,
 			content: data.content,
+			imageUrl: data.imageUrl,
 			published: true,
 			downloads: 0,
 			comments: 0,
@@ -51,10 +53,37 @@ export async function updateMod(
 	}
 
 	let mod: UpdateModRequest;
+	let imageUrl: string | undefined;
 	try {
-		const plainObject = Object.fromEntries(formData.entries());
-		mod = UpdateModRequestSchema.parse(plainObject);
-	} catch {
+		const firstFile = formData
+			.getAll('files')
+			.find((entry): entry is File => entry instanceof File && entry.size > 0);
+
+		if (!firstFile) {
+			const existingImageUrl = formData.get('existingImageUrl');
+			if (existingImageUrl !== null && typeof existingImageUrl !== 'string') {
+				throw new Error('Invalid existing image URL');
+			}
+			imageUrl =
+				typeof existingImageUrl === 'string' && existingImageUrl.length > 0
+					? existingImageUrl
+					: undefined;
+		} else {
+			const uploadFormData = new FormData();
+			uploadFormData.append('files', firstFile);
+			const uploaded = await uploadFile(uploadFormData);
+			imageUrl = uploaded.url;
+		}
+
+		mod = UpdateModRequestSchema.parse({
+			id: formData.get('id'),
+			slug: formData.get('slug'),
+			title: formData.get('title'),
+			content: formData.get('content'),
+			imageUrl,
+		});
+	} catch (e) {
+		console.error('updateMod parse/upload issue', e);
 		return { success: false, message: 'Invalid form data' };
 	}
 
@@ -65,6 +94,7 @@ export async function updateMod(
 			.set({
 				title: mod.title,
 				content: mod.content,
+				imageUrl: mod.imageUrl,
 				updatedAt: new Date().toISOString(),
 			})
 			.where(eq(mods.id, Number(mod.id)));

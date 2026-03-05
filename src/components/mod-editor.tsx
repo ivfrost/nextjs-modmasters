@@ -16,6 +16,7 @@ import type { InputChangeHandler } from '@/types/react';
 const ModEditorPropSchema = z.object({
 	initialTitle: z.string().optional(),
 	initialContent: z.string().optional(),
+	initialImageUrl: z.string().optional(),
 	isEditing: z.boolean().default(false),
 	modId: z.number(),
 	slug: z.string(),
@@ -32,6 +33,7 @@ export default function ModEditor(props: ModEditorProps) {
 	const {
 		initialTitle = '',
 		initialContent = '',
+		initialImageUrl = '',
 		isEditing = false,
 		modId,
 		slug,
@@ -122,6 +124,7 @@ export default function ModEditor(props: ModEditorProps) {
 				<input type="hidden" name="slug" value={slug} />
 				<input type="hidden" name="id" value={modId} />
 				<input type="hidden" name="content" value={content} />
+				<input type="hidden" name="existingImageUrl" value={initialImageUrl} />
 				{/* Title Section */}
 				<Card>
 					<CardHeader>
@@ -200,6 +203,7 @@ export default function ModEditor(props: ModEditorProps) {
 								<Input
 									id="file-upload"
 									type="file"
+									name="files"
 									multiple
 									onChange={handleFileUpload}
 									className="sr-only"
@@ -214,7 +218,7 @@ export default function ModEditor(props: ModEditorProps) {
 										{files.map((file, index) => (
 											<div
 												key={`${file.name}-${index}`}
-												className="flex items-center justify-between p-2 bg-muted rounded-md">
+												className="flex items-center justify-between p-2 px-3.75 bg-muted rounded-md">
 												<div className="flex items-center gap-x-2">
 													<span className="text-sm font-medium">
 														{file.name}
