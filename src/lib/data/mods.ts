@@ -12,7 +12,7 @@ export async function getMods(): Promise<GetModsResponse> {
 			const parsedCached = GetModsResponseSchema.parse(cached);
 			console.log('🟢 Get mods cache hit');
 			return parsedCached;
-		} catch (error) {
+		} catch (_) {
 			console.log('🟡 Cache validation failed, fetching fresh data');
 			throw new Error('Cache validation failed');
 		}

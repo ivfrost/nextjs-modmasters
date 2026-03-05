@@ -8,4 +8,5 @@ export const usersSync = neonAuth.table('user', {
   id: uuid('id').primaryKey(),
   email: text('email'),
   name: text('name'),
+  image: text('image'),
 });

@@ -21,7 +21,7 @@ export const GetModsResponseSchema = z.array(
 	BaseModSchema.extend({
 		id: z.number(),
 		slug: z.string(),
-		authorId: z.string(),
+		authorId: z.uuid(),
 		published: z.boolean(),
 		downloads: z.number(),
 		comments: z.number(),
