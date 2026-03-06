@@ -2,9 +2,7 @@ import {
 	ArrowDownToLine,
 	ArrowRight,
 	Calendar,
-	LucideMessageCircle,
 	MessageCircle,
-	MessageSquare,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -60,7 +58,7 @@ export function ModCard(props: ModCardProps) {
 							<div className="flex items-center">
 								<MessageCircle
 									strokeWidth={2.5}
-									className="w-3 h-3 mr-1.5 -mt-0.25"
+									className="w-3 h-3 mr-1.5 -mt-px"
 								/>
 								<span>{comments}</span>
 							</div>
