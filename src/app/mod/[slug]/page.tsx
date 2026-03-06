@@ -26,21 +26,11 @@ export default async function ViewModPage({ params }: ViewArticlePageProps) {
 	const viewCount = await incrementPageView(mod.id);
 
 	return (
-		<>
-			<ModViewer
-				{...mod}
-				href={`/mod/edit/${mod.slug}`}
-				canEdit={canEdit}
-				viewCount={viewCount}
-			/>
-			<SidebarPortal>
-				<Card className="p-4 mb-6">
-					<CardTitle className="text-lg font-semibold mb-2">
-						Welcome to Modmasters!
-					</CardTitle>
-					<CardDescription>Rating: 5 / 5</CardDescription>
-				</Card>
-			</SidebarPortal>
-		</>
+		<ModViewer
+			{...mod}
+			href={`/mod/edit/${mod.slug}`}
+			canEdit={canEdit}
+			viewCount={viewCount}
+		/>
 	);
 }

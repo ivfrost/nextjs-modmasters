@@ -14,6 +14,7 @@ export const ModCardPropSchema = BaseModSchema.extend({
   href: z.string().optional(),
   rating: z.number().optional(),
   category: z.string().optional(),
+  summary: z.string().optional(),
   comments: z.number(),
   downloads: z.number(),
   createdAt: z.string(),

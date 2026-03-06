@@ -78,6 +78,13 @@
       "when": 1772722600000,
       "tag": "0010_silent_sync_cleanup",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1772798023709,
+      "tag": "0011_sloppy_havok",
+      "breakpoints": true
     }
   ]
 }

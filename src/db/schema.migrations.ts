@@ -14,6 +14,7 @@ const mods = pgTable('mods', {
   title: text('title').notNull(),
   slug: text('slug').notNull().unique(),
   content: text('content').notNull(),
+  summary: text('summary'),
   category: text('category'),
   downloads: integer('downloads').default(0).notNull(),
   comments: integer('comments').default(0).notNull(),

@@ -22,6 +22,7 @@ export const GetModsResponseSchema = z.array(
     id: z.number(),
     slug: z.string(),
     authorId: z.uuid(),
+    summary: z.string().optional(),
     published: z.boolean(),
     downloads: z.number(),
     comments: z.number(),

@@ -26,6 +26,7 @@ export async function getMods(): Promise<GetModsResponse> {
       slug: mods.slug,
       category: mods.category,
       content: mods.content,
+      summary: mods.summary,
       downloads: mods.downloads,
       comments: mods.comments,
       authorId: mods.authorId,
@@ -40,6 +41,7 @@ export async function getMods(): Promise<GetModsResponse> {
   const response = modsData.map((mod) => ({
     ...mod,
     category: mod.category ?? undefined,
+    summary: mod.summary ?? undefined,
     imageUrl: mod.imageUrl ?? undefined,
   }));
 

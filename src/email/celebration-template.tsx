@@ -1,103 +1,108 @@
 type CelebrationTemplateProps = {
-	username: string;
-	pageViews: number;
-	modTitle: string;
-	modUrl: string;
+  username: string;
+  pageViews: number;
+  modTitle: string;
+  modUrl: string;
 };
 
 export const CelebrationTemplate = ({
-	username,
-	pageViews,
-	modTitle,
-	modUrl,
+  username,
+  pageViews,
+  modTitle,
+  modUrl,
 }: CelebrationTemplateProps) => {
-	return (
-		<html lang="en">
-			<body
-				style={{
-					backgroundColor: '#f8fafc',
-					margin: 0,
-					padding: 20,
-					fontFamily:
-						"Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-					color: '#0f172a',
-				}}>
-				<table
-					width="100%"
-					cellPadding={0}
-					cellSpacing={0}
-					role="presentation"
-					style={{ maxWidth: 600, margin: '0 auto' }}>
-					<tr>
-						<td style={{ paddingBottom: 12 }}>
-							<div style={{ textAlign: 'left' }}>
-								<strong style={{ fontSize: 18, color: '#0f172a' }}>
-									Modmasters
-								</strong>
-							</div>
-						</td>
-					</tr>
+  return (
+    <html lang="en">
+      <body
+        style={{
+          backgroundColor: '#f8fafc',
+          margin: 0,
+          padding: 20,
+          fontFamily:
+            "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+          color: '#0f172a',
+        }}
+      >
+        <table
+          width="100%"
+          cellPadding={0}
+          cellSpacing={0}
+          role="presentation"
+          style={{ maxWidth: 600, margin: '0 auto' }}
+        >
+          <tr>
+            <td style={{ paddingBottom: 12 }}>
+              <div style={{ textAlign: 'left' }}>
+                <strong style={{ fontSize: 18, color: '#0f172a' }}>
+                  Modmasters
+                </strong>
+              </div>
+            </td>
+          </tr>
 
-					<tr>
-						<td>
-							<div
-								style={{
-									background: '#ffffff',
-									borderRadius: 8,
-									padding: 24,
-									boxShadow: '0 1px 0 rgba(15,23,42,0.04)',
-								}}>
-								<h1
-									style={{
-										margin: '0 0 8px 0',
-										fontSize: 20,
-										lineHeight: '28px',
-									}}>
-									🎉 Nice work{username ? `, ${username}` : ''}!
-								</h1>
+          <tr>
+            <td>
+              <div
+                style={{
+                  background: '#ffffff',
+                  borderRadius: 8,
+                  padding: 24,
+                  boxShadow: '0 1px 0 rgba(15,23,42,0.04)',
+                }}
+              >
+                <h1
+                  style={{
+                    margin: '0 0 8px 0',
+                    fontSize: 20,
+                    lineHeight: '28px',
+                  }}
+                >
+                  🎉 Nice work{username ? `, ${username}` : ''}!
+                </h1>
 
-								<p style={{ margin: '0 0 16px 0', color: '#334155' }}>
-									Your mod{modTitle ? ` "${modTitle}"` : ''} just hit{' '}
-									<strong>{pageViews}</strong> views — that's a milestone.
-								</p>
+                <p style={{ margin: '0 0 16px 0', color: '#334155' }}>
+                  Your mod{modTitle ? ` "${modTitle}"` : ''} just hit{' '}
+                  <strong>{pageViews}</strong> views — that's a milestone.
+                </p>
 
-								{modUrl ?
-									<a
-										href={modUrl}
-										style={{
-											display: 'inline-block',
-											textDecoration: 'none',
-											background: '#0ea5a4',
-											color: 'white',
-											padding: '10px 14px',
-											borderRadius: 6,
-											fontWeight: 600,
-										}}>
-										View mod
-									</a>
-								:	null}
+                {modUrl ? (
+                  <a
+                    href={modUrl}
+                    style={{
+                      display: 'inline-block',
+                      textDecoration: 'none',
+                      background: '#0ea5a4',
+                      color: 'white',
+                      padding: '10px 14px',
+                      borderRadius: 6,
+                      fontWeight: 600,
+                    }}
+                  >
+                    View mod
+                  </a>
+                ) : null}
 
-								<p style={{ marginTop: 18, color: '#94a3b8', fontSize: 13 }}>
-									Your contribution to the modding community makes a difference.
-									Keep inspiring others with your creativity and passion for
-									modding!
-								</p>
-							</div>
-						</td>
-					</tr>
+                <p style={{ marginTop: 18, color: '#94a3b8', fontSize: 13 }}>
+                  Your contribution to the modding community makes a difference.
+                  Keep inspiring others with your creativity and passion for
+                  modding!
+                </p>
+              </div>
+            </td>
+          </tr>
 
-					<tr>
-						<td style={{ paddingTop: 14 }}>
-							<p style={{ margin: 0, color: '#94a3b8', fontSize: 12 }}>
-								You’re receiving this email because you authored content on
-								Modmasters.
-							</p>
-						</td>
-					</tr>
-				</table>
-			</body>
-		</html>
-	);
+          <tr>
+            <td style={{ paddingTop: 14 }}>
+              <p style={{ margin: 0, color: '#94a3b8', fontSize: 12 }}>
+                You’re receiving this email because you authored content on
+                Modmasters.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+  );
 };
 
 export default CelebrationTemplate;
