@@ -12,7 +12,10 @@ interface EditArticlePageProps {
 export default async function EditArticlePage({
   params,
 }: EditArticlePageProps) {
-  const { data: session } = await auth.getSession();
+  onst;
+  data: session;
+  = await auth.getSession()
+  c;
   const { slug } = await params;
   const mod = await getModBySlug(slug);
 
