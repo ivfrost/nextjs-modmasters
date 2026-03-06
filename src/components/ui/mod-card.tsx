@@ -1,3 +1,4 @@
+import { image } from '@uiw/react-md-editor';
 import {
 	ArrowDownToLine,
 	ArrowRight,
@@ -32,14 +33,15 @@ export function ModCard(props: ModCardProps) {
 
 	return (
 		<Card className="relative w-full flex flex-col lg:flex-row gap-4 lg:gap-6 px-4 py-4 lg:h-full group">
-			<div className="relative transition-transform lg:aspect-square lg:w-52 min-h-26 overflow-hidden rounded-lg shadow-sm">
+			<div className="lg:aspect-video relative lg:w-70 min-h-26 overflow-hidden rounded-lg shadow-sm">
+				{/* Main image */}
 				{imageUrl ?
 					<Image
 						src={imageUrl}
 						unoptimized={true}
 						alt={title}
 						fill
-						className="object-cover"
+						className="object-cover z-20"
 					/>
 				:	<Image
 						src="https://placehold.co/400x225?text=No+Image"
