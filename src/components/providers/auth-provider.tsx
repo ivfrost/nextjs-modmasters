@@ -10,6 +10,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <NeonAuthUIProvider
+      // biome-ignore lint/suspicious/noExplicitAny: NeonAuthUIProvider expects a specific internal type
       authClient={authClient as any}
       social={{ providers: ['google', 'github'] }}
       navigate={router.push}
