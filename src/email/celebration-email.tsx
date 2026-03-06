@@ -4,6 +4,12 @@ import db from '@/db';
 import { usersSync } from '@/db/schema';
 import { mods } from '@/db/schema.migrations';
 import resend from '@/email';
+import CelebrationTemplate from '@/email/celebration-template';
+
+const BASE_URL =
+	process.env.VERCEL_URL ?
+		`https://${process.env.VERCEL_URL}`
+	:	`http://localhost:3000`;
 
 assert(
 	process.env.EMAIL_DOMAIN_NAME,
@@ -17,13 +23,16 @@ export default async function sendCelebrationEmail(
 	const response = await db
 		.select({
 			email: usersSync.email,
+			name: usersSync.name,
 			id: usersSync.id,
+			title: mods.title,
+			slug: mods.slug,
 		})
 		.from(usersSync)
 		.innerJoin(mods, eq(usersSync.id, mods.authorId))
 		.where(eq(mods.id, modId));
 
-	const { email, id } = response[0];
+	const { email, name: username, id, title: modTitle, slug } = response[0];
 	if (!email) {
 		console.log(
 			`❌ could not find author of mod with id ${modId} for celebration email on reaching ${pageViews} views`,
@@ -35,9 +44,14 @@ export default async function sendCelebrationEmail(
 		from: `Modmasters <noreply@${process.env.EMAIL_DOMAIN_NAME}>`,
 		to: email,
 		subject: `Your mod reached ${pageViews} views 🎉`,
-		html: `<h1>Nice work!</h1>
-    <p>Your mod just hit <strong>${pageViews}</strong> page views. We love seeing your work resonate with the community!</p>
-    <p>Keep it up,<br/>The Modmasters Team</p>`,
+		react: (
+			<CelebrationTemplate
+				modTitle={modTitle}
+				modUrl={`${BASE_URL}/mod/${slug}`}
+				username={username ?? 'Modder'}
+				pageViews={pageViews}
+			/>
+		),
 	});
 
 	if (!emailRes.error) {
