@@ -9,6 +9,10 @@ function isTestEnv() {
 }
 
 export default async function summarizeMod(title: string, content: string) {
+  if (!process.env.AI_GATEWAY_API_KEY) {
+    return 'Summary unavailable: AI gateway key is missing.';
+  }
+
   if (isTestEnv()) {
     return 'This is a summary of the mod. It should be concise and informative, giving readers a quick overview of what the mod is about and its main features.';
   }
