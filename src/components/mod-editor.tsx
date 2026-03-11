@@ -49,6 +49,7 @@ export default function ModEditor(props: ModEditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
+  const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FormErrors>({});
 
   const initialActionState: UpdateModActionState = {
@@ -217,6 +218,27 @@ export default function ModEditor(props: ModEditorProps) {
                   className="sr-only"
                 />
               </div>
+              {/* Show uploaded files */}
+              {files.length > 0 && (
+                <ul className="mt-4 space-y-2 text-left">
+                  {files.map((file, idx) => (
+                    <li
+                      key={`${file.name} + '-' + ${file.lastModified}`}
+                      className="flex items-center gap-2"
+                    >
+                      <span className="truncate max-w-xs">{file.name}</span>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => _removeFile(idx)}
+                      >
+                        Remove
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </CardContent>
         </Card>
