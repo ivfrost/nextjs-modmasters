@@ -15,7 +15,9 @@ export interface FileUploadResponse {
   message?: string;
 }
 
-export type CreateModRequest = z.infer<typeof BaseModSchema>;
+export const CreateModRequestSchema = BaseModSchema;
+
+export type CreateModRequest = z.infer<typeof CreateModRequestSchema>;
 
 export const GetModsResponseSchema = z.array(
   BaseModSchema.extend({

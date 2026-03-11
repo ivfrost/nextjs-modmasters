@@ -1,13 +1,17 @@
 'use client';
 
-import MDEditor from '@uiw/react-md-editor';
-import { Upload } from 'lucide-react';
+import { PencilIcon, Sparkle, Upload } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import z from 'zod';
-import { type UpdateModActionState, updateMod } from '@/app/actions/mods';
+import {
+  createMod,
+  type UpdateModActionState,
+  updateMod,
+} from '@/app/actions/mods';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,10 +25,15 @@ import { Label } from '@/components/ui/label';
 import type { InputChangeHandler } from '@/types/react';
 import ButtonBack from './button-back';
 
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
+  ssr: false,
+});
+
 const ModEditorPropSchema = z.object({
   initialTitle: z.string().optional(),
   initialContent: z.string().optional(),
   initialImageUrl: z.string().optional(),
+  initialCategory: z.string().optional(),
   isEditing: z.boolean().default(false),
   modId: z.number().optional(),
   slug: z.string().optional(),
@@ -42,6 +51,7 @@ export default function ModEditor(props: ModEditorProps) {
     initialTitle = '',
     initialContent = '',
     initialImageUrl = '',
+    initialCategory = '',
     isEditing = false,
     modId,
     slug,
@@ -49,6 +59,7 @@ export default function ModEditor(props: ModEditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
+  const [category, setCategory] = useState(initialCategory);
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -57,7 +68,7 @@ export default function ModEditor(props: ModEditorProps) {
     message: '',
   };
   const [actionState, formAction, isSubmitting] = useActionState(
-    updateMod,
+    isEditing ? updateMod : createMod,
     initialActionState,
   );
 
@@ -117,28 +128,42 @@ export default function ModEditor(props: ModEditorProps) {
     }
   };
 
-  const _pageTitle = isEditing ? 'Edit mod' : 'Create new mod';
+  const pageTitle = isEditing
+    ? `Editing mod: ${initialTitle}`
+    : 'Create new mod';
 
   return (
     <div className="container mx-auto max-w-4xl space-y-4 lg:space-y-6">
       <div className="mb-6 flex gap-2 justify-between">
         <ButtonBack href={`/mod/${slug}`} />
-        <div className="flex gap-2"></div>
       </div>
-
+      {/* Dynamic header for create or edit */}
+      <div className="flex items-center w-full">
+        {isEditing ? (
+          <>
+            <PencilIcon className="h-6 w-6 me-2 text-muted-foreground" />
+            <h1 className="text-2xl font-bold text-foreground">{pageTitle}</h1>
+          </>
+        ) : (
+          <>
+            <Sparkle className="h-6 w-6 me-2 text-muted-foreground" />
+            <h1 className="text-2xl font-bold text-foreground">{pageTitle}</h1>
+          </>
+        )}
+      </div>
       <form action={formAction} className="space-y-4 lg:space-y-6">
         <input type="hidden" name="slug" value={slug} />
         <input type="hidden" name="id" value={modId} />
         <input type="hidden" name="content" value={content} />
+        <input type="hidden" name="category" value={category} />
         <input type="hidden" name="existingImageUrl" value={initialImageUrl} />
         {/* Title Section */}
         <Card>
           <CardHeader>
-            <CardTitle>Mod Title</CardTitle>
+            <Label htmlFor="title">Title *</Label>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
               <Input
                 id="title"
                 name="title"
@@ -146,6 +171,27 @@ export default function ModEditor(props: ModEditorProps) {
                 placeholder="Enter mod title..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className={errors.title ? 'border-destructive' : ''}
+              />
+              {errors.title && (
+                <p className="text-sm text-destructive">{errors.title}</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Label htmlFor="category">Category *</Label>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <Input
+                id="category"
+                name="category"
+                type="text"
+                placeholder="Enter mod category..."
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
                 className={errors.title ? 'border-destructive' : ''}
               />
               {errors.title && (
@@ -162,7 +208,6 @@ export default function ModEditor(props: ModEditorProps) {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label htmlFor="content">Description (Markdown) *</Label>
               <div
                 className={`border rounded-md ${
                   errors.content ? 'border-destructive' : ''

@@ -1,14 +1,26 @@
 'use client';
-import { BookDashed, BookOpen, Edit } from 'lucide-react';
+import { Edit, EllipsisVertical, Trash } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { toast } from 'sonner';
 import z from 'zod';
+import { deleteMod } from '@/app/actions/mods';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import useTruncatedElement from '@/hooks/useTruncatedElement';
 import { ModCardPropSchema } from '@/types/schemas';
 import ButtonBack from './button-back';
+import ButtonShowToggle from './button-show-toggle';
 import {
   Carousel,
   CarouselContent,
@@ -24,27 +36,77 @@ const ModViewerSchema = ModCardPropSchema.extend({
 type ModViewerProps = z.infer<typeof ModViewerSchema>;
 
 export default function ModViewer(props: ModViewerProps) {
-  const { title, content, href, canEdit } = props;
+  const { id, title, content, href, canEdit } = props;
   const markdownRef = useRef(null);
   const { isTruncated, isReadingMore, setIsReadingMore } =
     useTruncatedElement(markdownRef);
+  const router = useRouter();
+
+  async function handleDeleteMod() {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this mod?',
+    );
+    if (!confirmed) return;
+
+    try {
+      const result = await deleteMod(id);
+      if (result.success) {
+        toast.success('Mod deleted successfully', { position: 'top-center' });
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            router.push('/');
+            resolve(true);
+          }, 1500);
+        });
+      }
+      toast.error(result.message, { position: 'top-center' });
+    } catch (error) {
+      toast.error('An error occurred while deleting the mod', {
+        position: 'top-center',
+      });
+      console.error('Delete mod error:', error);
+    }
+  }
 
   return (
     <div className="container mx-auto max-w-4xl space-y-4 lg:space-y-6">
       <div className="mb-6 flex gap-2 justify-between">
         <ButtonBack href="/" />
         {canEdit && href && (
-          <div className="flex justify-end gap-x-2">
+          <>
             {/* Edit Button - Only shown if user has edit permissions */}
-            <div className="flex items-center gap-2">
-              <Link href={href} className="cursor-pointer">
-                <Button variant="outline" className="cursor-pointer">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Edit Mod
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <EllipsisVertical className="h-4 w-4" />
                 </Button>
-              </Link>
-            </div>
-          </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <Link
+                      href={href}
+                      className="cursor-pointer w-full items-center flex"
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      <span>Edit mod</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem variant="destructive">
+                    <button
+                      type="button"
+                      onClick={handleDeleteMod}
+                      className="cursor-pointer w-full items-center flex"
+                    >
+                      <Trash className="h-4 w-4 mr-2 text-inherit" />
+                      <span>Delete mod</span>
+                    </button>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
         )}
       </div>
 
@@ -71,7 +133,7 @@ export default function ModViewer(props: ModViewerProps) {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <Card className="relative overflow-hidden pb-0! mb-0!">
+      <Card className="relative overflow-hidden mb-0 pb-0">
         {/* Mod Header */}
         <CardHeader className="border-b border-border space-y-4 lg:space-y-6">
           <div className="flex justify-between items-start gap-1 flex-col">
@@ -90,7 +152,7 @@ export default function ModViewer(props: ModViewerProps) {
           {/* Rendered Markdown Content */}
           <div
             ref={markdownRef}
-            className={`prose prose-stone dark:prose-invert max-w-none transition-all duration-300 overflow-hidden wrap-break-word mb-15 ${!isReadingMore && 'line-clamp-6'}`}
+            className={`prose prose-stone dark:prose-invert max-w-none transition-all duration-300 overflow-hidden wrap-break-word ${(!isReadingMore && 'line-clamp-7 mb-2') || 'mb-6'}`}
           >
             <ReactMarkdown
               components={{
@@ -184,27 +246,14 @@ export default function ModViewer(props: ModViewerProps) {
               {content}
             </ReactMarkdown>
           </div>
-          {isTruncated && !isReadingMore && (
-            <Button
-              className="absolute rounded-none w-full left-0 bottom-0 bg-white dark:bg-stone-900! border-x-0! border-b-0 text-blue-600 dark:text-blue-400 font-semibold"
-              onClick={() => setIsReadingMore(true)}
-              size="icon-lg"
+          {isTruncated && (
+            <ButtonShowToggle
+              size="lg"
               variant="outline"
-            >
-              <BookOpen />
-              Show more
-            </Button>
-          )}
-          {isTruncated && isReadingMore && (
-            <Button
-              className="absolute rounded-none w-full left-0 bottom-0 bg-white dark:bg-stone-900! border-x-0! border-b-0 text-blue-600 dark:text-blue-400 font-semibold"
-              onClick={() => setIsReadingMore(false)}
-              size="icon-lg"
-              variant="outline"
-            >
-              <BookDashed />
-              Show less
-            </Button>
+              className="absolute bottom-0 left-0 w-full"
+              value={!!isReadingMore}
+              onClick={() => setIsReadingMore(!isReadingMore)}
+            />
           )}
         </CardContent>
       </Card>

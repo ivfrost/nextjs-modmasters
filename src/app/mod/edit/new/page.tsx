@@ -10,6 +10,7 @@ export default async function NewArticlePage() {
     initialTitle: '',
     initialContent: '',
     initialImageUrl: '',
+    initialCategory: '',
     isEditing: false,
   };
 

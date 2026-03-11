@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/lib/auth/client';
 import { Button } from '../ui/button';
+import { ButtonGroup } from '../ui/button-group';
 
 export function NavBar() {
   const { data } = useSession();
@@ -33,17 +34,24 @@ export function NavBar() {
           {user ? (
             <>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
-                    <PlusIcon />
-                    <ChevronDown />
+                <ButtonGroup orientation="horizontal">
+                  <Button asChild size="icon" variant="outline">
+                    <Link href="/mod/edit/new">
+                      <PlusIcon className="h-4 w-4" />
+                    </Link>
                   </Button>
-                </DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="icon" variant="outline">
+                      <ChevronDown />
+                    </Button>
+                  </DropdownMenuTrigger>
+                </ButtonGroup>
                 <DropdownMenuContent className="min-w-40">
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <Button
                         asChild
+                        size="xs"
                         variant="ghost"
                         className="w-full justify-start"
                       >
@@ -58,11 +66,7 @@ export function NavBar() {
                   <DropdownMenuGroup>
                     <DropdownMenuLabel>More</DropdownMenuLabel>
                     <DropdownMenuItem>
-                      <Button
-                        asChild
-                        variant="ghost"
-                        className="w-full justify-start"
-                      >
+                      <Button asChild variant="ghost" size="xs">
                         <Link href="/my-mods">
                           <Bookmark className="me-2" />
                           My Mods

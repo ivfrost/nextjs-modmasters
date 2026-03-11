@@ -33,6 +33,7 @@ export default async function EditArticlePage({
       initialTitle={mod.title}
       initialContent={mod.content}
       initialImageUrl={mod.imageUrl ?? ''}
+      initialCategory={mod.category ?? ''}
       isEditing={true}
       modId={mod.id}
       slug={mod.slug}
