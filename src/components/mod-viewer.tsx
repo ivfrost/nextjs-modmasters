@@ -12,6 +12,13 @@ import { formatDate } from '@/utils/time';
 import ButtonBack from './button-back';
 import ModAuthor from './mod-author';
 import { ModViewCount } from './mod-view-count';
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from './ui/carousel';
 
 const ModViewerSchema = ModCardPropSchema.extend({
 	canEdit: z.boolean(),
@@ -37,34 +44,48 @@ export default function ModViewer(props: ModViewerProps) {
 		<div className="container mx-auto max-w-4xl space-y-4 lg:space-y-6">
 			<div className="mb-6 flex gap-2 justify-between">
 				<ButtonBack href="/" />
-				<div className="flex gap-2"></div>
+				{canEdit && href && (
+					<div className="flex justify-end gap-x-2">
+						{/* Edit Button - Only shown if user has edit permissions */}
+						<div className="flex items-center gap-2">
+							<Link href={href} className="cursor-pointer">
+								<Button variant="outline" className="cursor-pointer">
+									<Edit className="h-4 w-4 mr-2" />
+									Edit Mod
+								</Button>
+							</Link>
+						</div>
+					</div>
+				)}
 			</div>
 
+			<Carousel className="lg:mx-10 mx-12 max-w-sm lg:max-w-xl">
+				<CarouselContent>
+					{Array.from({ length: 5 }).map((_, index) => (
+						<CarouselItem key={index} className="lg:basis-sm basis-full">
+							<div className="p-1">
+								<Card>
+									<CardContent className="flex aspect-video items-center justify-center p-6">
+										<span className="text-4xl font-semibold">{index + 1}</span>
+									</CardContent>
+								</Card>
+							</div>
+						</CarouselItem>
+					))}
+				</CarouselContent>
+				<CarouselPrevious />
+				<CarouselNext />
+			</Carousel>
 			<Card className="overflow-hidden">
 				{/* Mod Header */}
-				<CardHeader className="border-b border-border">
+				<CardHeader className="border-b border-border space-y-4 lg:space-y-6">
 					<div className="flex justify-between items-start gap-1 flex-col">
 						<div className="flex items-center flex-wrap gap-x-3 w-full">
 							<span className="flex items-center">
 								<h1 className="lg:text-3xl text-xl font-bold text-foreground space-x-2">
 									{title}{' '}
-									{category && (
-										<Badge variant="secondary" className="align-middle">
-											{category}
-										</Badge>
-									)}
 								</h1>
 							</span>
-						</div>
-						<div className="flex flex-wrap items-center justify-between w-full text-xs lg:text-sm text-muted-foreground gap-2">
-							{/* Mod Metadata */}
-							<div className="flex gap-2 items-center text-xs lg:text-sm text-muted-foreground">
-								<span>{formatDate(createdAt)}</span>
-								<span>⸱</span>
-								<ModAuthor authorId={authorId} />
-								<span>⸱</span>
-								<ModViewCount viewCount={viewCount} />
-							</div>
 						</div>
 					</div>
 				</CardHeader>
@@ -163,35 +184,6 @@ export default function ModViewer(props: ModViewerProps) {
 					</div>
 				</CardContent>
 			</Card>
-			{canEdit && href && (
-				<Card>
-					<CardContent className="pt-6">
-						<div className="flex justify-end gap-x-2">
-							{/* Delete form calls the server action wrapper */}
-							<form action={deleteModForm}>
-								<input type="hidden" name="id" value={String(id)} />
-								<Button
-									type="submit"
-									variant="destructive"
-									className="cursor-pointer">
-									<Trash className="h-4 w-4 mr-2" />
-									Delete
-								</Button>
-							</form>
-							{/* Edit Button - Only shown if user has edit permissions */}
-
-							<div className="flex items-center gap-2">
-								<Link href={href} className="cursor-pointer">
-									<Button variant="outline" className="cursor-pointer">
-										<Edit className="h-4 w-4 mr-2" />
-										Edit Mod
-									</Button>
-								</Link>
-							</div>
-						</div>
-					</CardContent>
-				</Card>
-			)}
 		</div>
 	);
 }

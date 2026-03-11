@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/card';
 import type { ModCardProps } from '@/types/schemas';
 import { getTimeSince } from '@/utils/time';
+import CardImage from '../card-image';
+import StatsOverlay from '../stats-overlay';
 
 export function ModCard(props: ModCardProps) {
 	const {
@@ -32,48 +34,13 @@ export function ModCard(props: ModCardProps) {
 	} = props;
 
 	return (
-		<Card className="relative w-full flex flex-col lg:flex-row gap-3 lg:gap-6 p-6 lg:h-full group lg:px-6">
-			<div className="relative min-h-26 aspect-square rounded-lg shadow-sm shrink-0 overflow-hidden -mx-2 -mt-2 lg:mr-0 lg:-mb-2">
-				{/* Main image */}
-				{imageUrl ?
-					<Image
-						src={imageUrl}
-						unoptimized={true}
-						alt={title}
-						fill
-						className="object-cover"
-					/>
-				:	<Image
-						src="https://placehold.co/400x225?text=No+Image"
-						unoptimized={true}
-						alt="No image available"
-						fill
-						className="object-cover"
-					/>
-				}
-				{/* Dark overlay */}
-				<div className="absolute inset-0 bg-linear-to-br from-neutral-800/20 to-black/50 z-20" />
-				{/* Stats overlay */}
-				<div className="absolute overflow-hidden bottom-1 gap-1 right-1 z-50 flex items-center text-xs dark:text-secondary-foreground text-white">
-					<div
-						className="flex items-center rounded-xl backdrop-blur-sm supports-backdrop-filter:bg-stone-950/60
-		 bg-neutral-800 px-2 py-1">
-						<MessageCircle
-							strokeWidth={2.5}
-							className="w-3 h-3 mr-1.75 -mt-px"
-						/>
-						<span>{comments}</span>
-					</div>
-					<div
-						className="flex items-center rounded-xl backdrop-blur-sm supports-backdrop-filter:bg-stone-950/60
-		 bg-neutral-800 px-2 py-1">
-						<ArrowDownToLine className="w-3.75 h-3.75 mr-1" />
-						<span>{downloads}</span>
-					</div>
-				</div>
+		<Card className="flex flex-col lg:flex-row gap-4 lg:px-6 px-4">
+			<div className="relative lg:aspect-square rounded-lg shadow-sm shrink-0 overflow-hidden lg:-mx-2 -mt-2 lg:mr-0 lg:-mb-2 h-26 lg:h-auto">
+				<CardImage imageUrl={imageUrl} />
+				<StatsOverlay comments={comments} downloads={downloads} />
 			</div>
 			<div className="flex flex-col space-y-4 w-full">
-				<CardHeader className="flex justify-between px-0">
+				<CardHeader className="flex justify-between px-0 ">
 					{(href && (
 						<Link href={href}>
 							<CardTitle>{title}</CardTitle>

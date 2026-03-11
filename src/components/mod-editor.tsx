@@ -2,13 +2,20 @@
 
 import MDEditor from '@uiw/react-md-editor';
 import { Upload, X } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import z from 'zod';
 import { type UpdateModActionState, updateMod } from '@/app/actions/mods';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { InputChangeHandler } from '@/types/react';
@@ -166,8 +173,9 @@ export default function ModEditor(props: ModEditorProps) {
 									preview="edit"
 									hideToolbar={false}
 									visibleDragbar={false}
+									className="dark:bg-stone-950! bg-white! border-neutral-700/50! rounded-md! outline-1! dark:outline-neutral-800! outline-neutral-200! focus-within:outline-2!"
 									textareaProps={{
-										placeholder: 'Write your article content in Markdown...',
+										placeholder: 'Write your mod description in Markdown...',
 										style: { fontSize: 14, lineHeight: 1.5 },
 									}}
 								/>
@@ -176,44 +184,6 @@ export default function ModEditor(props: ModEditorProps) {
 								<p className="text-sm text-destructive">{errors.content}</p>
 							)}
 						</div>
-					</CardContent>
-				</Card>
-
-				{/* Cover Image Upload Section */}
-				<Card>
-					<CardHeader>
-						<CardTitle>Cover Image</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className="space-y-4">{/* Display uploaded file */}</div>
-						{/* Display uploaded files */}
-						{files.length > 0 && (
-							<div className="space-y-2">
-								<Label className="text-sm font-medium">Uploaded Files:</Label>
-								<div className="space-y-2">
-									{files.map((file, index) => (
-										<div
-											key={`${file.name}-${index}`}
-											className="flex items-center justify-between p-2 px-3.75 bg-muted rounded-md">
-											<div className="flex items-center gap-x-2">
-												<span className="text-sm font-medium">{file.name}</span>
-												<span className="text-xs text-muted-foreground">
-													({(file.size / 1024).toFixed(1)} KB)
-												</span>
-											</div>
-											<Button
-												type="button"
-												variant="ghost"
-												size="sm"
-												onClick={() => removeFile(index)}
-												className="h-8 w-8 p-0">
-												<X className="h-4 w-4" />
-											</Button>
-										</div>
-									))}
-								</div>
-							</div>
-						)}
 					</CardContent>
 				</Card>
 
@@ -247,6 +217,29 @@ export default function ModEditor(props: ModEditorProps) {
 								/>
 							</div>
 						</div>
+					</CardContent>
+				</Card>
+
+				{/* Cover Image Section */}
+				<Card>
+					<CardContent>
+						<CardTitle className="text-lg font-semibold mb-2">
+							Cover Image
+						</CardTitle>
+						<CardDescription>
+							<ul className="list-disc list-inside mb-4 text-sm text-muted-foreground">
+								<li>Optimal dimensions: 400x400</li>
+								<li>Formats: JPG, PNG</li>
+								<li>Max size: 2MB</li>
+							</ul>
+							<Image
+								src={initialImageUrl || '/placeholder-image.png'}
+								alt="Cover Image Preview"
+								width={400}
+								height={225}
+								className="rounded-md border"
+							/>
+						</CardDescription>
 					</CardContent>
 				</Card>
 

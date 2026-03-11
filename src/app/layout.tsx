@@ -1,4 +1,5 @@
 'use client';
+import { Analytics } from '@vercel/analytics/next';
 import { IBM_Plex_Mono, Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import { usePathname } from 'next/navigation';
@@ -30,7 +31,9 @@ export default function RootLayout({
 }>) {
 	const pathname = usePathname();
 	const isAuthOrAccountPage =
-		/^\/auth(\/|$)/.test(pathname) || /^\/account(\/|$)/.test(pathname);
+		/^\/auth(\/|$)/.test(pathname) ||
+		/^\/account(\/|$)/.test(pathname) ||
+		/^\/mod\/edit(\/|$)/.test(pathname);
 
 	return (
 		<html lang="en" suppressHydrationWarning>
@@ -62,6 +65,7 @@ export default function RootLayout({
 							)}
 						</div>
 					</SidebarPortalProvider>
+					<Analytics />
 				</AuthProvider>
 				<Toaster />
 			</body>
