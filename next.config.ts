@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'media.moddb.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'bt5zrcb3vfecfdoz.public.blob.vercel-storage.com',
+      },
     ],
   },
 };

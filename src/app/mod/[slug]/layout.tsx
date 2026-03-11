@@ -1,7 +1,7 @@
 export default function ViewModLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return <div className="gap-4 lg:gap-6">{children}</div>;
+  return <div className="gap-4 lg:gap-6">{children}</div>;
 }

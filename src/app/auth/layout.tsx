@@ -1,7 +1,7 @@
 export default function AuthLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return <main className="container mx-auto max-w-md">{children}</main>;
+  return <main className="container mx-auto max-w-md">{children}</main>;
 }
