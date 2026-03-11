@@ -30,7 +30,7 @@ export function NavBar() {
             Modmasters
           </Link>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 text-sm">
           {user ? (
             <>
               <DropdownMenu>
@@ -51,7 +51,7 @@ export function NavBar() {
                     <DropdownMenuItem>
                       <Button
                         asChild
-                        size="xs"
+                        size="icon-xs"
                         variant="ghost"
                         className="w-full justify-start"
                       >
@@ -66,7 +66,7 @@ export function NavBar() {
                   <DropdownMenuGroup>
                     <DropdownMenuLabel>More</DropdownMenuLabel>
                     <DropdownMenuItem>
-                      <Button asChild variant="ghost" size="xs">
+                      <Button asChild variant="ghost" size="icon-xs">
                         <Link href="/my-mods">
                           <Bookmark className="me-2" />
                           My Mods
