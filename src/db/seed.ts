@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { promises } from 'node:fs';
 import { eq } from 'drizzle-orm';
 import db, { sql } from '@/db/index';
