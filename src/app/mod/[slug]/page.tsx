@@ -35,7 +35,7 @@ export default async function ViewModPage({ params }: ViewArticlePageProps) {
 
   // Mock permission check - users can edit if they're signed in
   // TODO: Implement real permission logic based on mod ownership or roles
-  const canEdit = !!session;
+  const canEdit = !!session && session.user.id === mod.authorId;
   const viewCount = await incrementPageView(mod.id);
 
   return (
