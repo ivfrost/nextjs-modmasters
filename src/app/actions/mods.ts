@@ -200,6 +200,23 @@ export async function deleteMod(id: number) {
     throw new Error('Unauthorized');
   }
 
+  const isUserOwner = async () => {
+    const result = await db
+      .select({
+        id: mods.id,
+      })
+      .from(mods)
+      .where(and(eq(mods.authorId, session.user.id), eq(mods.id, Number(id))));
+    return result.length > 0;
+  };
+
+  if (!(await isUserOwner())) {
+    return {
+      success: false,
+      message: 'Unauthorized',
+    };
+  }
+
   console.log('❌ deleteMod called', session.user.id, id);
   try {
     await db.delete(mods).where(eq(mods.id, id));
