@@ -1,11 +1,10 @@
 import { expect, test, vi } from 'vitest';
-import { createMod } from '@/app/actions/mods';
+import { createMod, type UpdateModActionState } from '@/app/actions/mods';
 import redis from '@/cache';
 import db from '@/db';
 import type { UsersSync } from '@/db/schema';
 import { mods } from '@/db/schema.migrations';
 import { auth } from '@/lib/auth/server';
-import type { CreateModRequest } from '@/types/api';
 
 // Shared mock data
 const testUser: UsersSync = {
@@ -15,11 +14,23 @@ const testUser: UsersSync = {
   image: 'https://example.com/avatar.png',
 };
 
-const modData: CreateModRequest = {
+const modData = {
   title: 'Test Mod',
   content: 'This is a test mod.',
-  authorId: 'some-id',
-  imageUrl: 'https://example.com/mod-image.png',
+  category: 'Gameplay',
+};
+
+const initialActionState: UpdateModActionState = {
+  success: false,
+  message: '',
+};
+
+const makeCreateModFormData = () => {
+  const formData = new FormData();
+  formData.set('title', modData.title);
+  formData.set('content', modData.content);
+  formData.set('category', modData.category);
+  return formData;
 };
 
 test('logged in users can create mods', async () => {
@@ -32,7 +43,7 @@ test('logged in users can create mods', async () => {
   } as unknown as ReturnType<typeof db.insert>);
 
   // Redis and summarizeMod are mocked globally in test/setup.ts
-  await createMod(modData);
+  await createMod(initialActionState, makeCreateModFormData());
 
   // Verify DB insert was called on the mods table
   expect(db.insert).toHaveBeenCalledWith(mods);
@@ -47,7 +58,9 @@ test('unauthenticated users cannot create mods', async () => {
   } as unknown as ReturnType<typeof db.insert>);
 
   // createMod should throw before reaching the DB or cache
-  await expect(createMod(modData)).rejects.toThrow('Unauthorized');
+  await expect(
+    createMod(initialActionState, makeCreateModFormData()),
+  ).rejects.toThrow('Unauthorized');
 
   expect(db.insert).not.toHaveBeenCalled();
   expect(redis.del).not.toHaveBeenCalled();

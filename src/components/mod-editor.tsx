@@ -215,7 +215,8 @@ export default function ModEditor(props: ModEditorProps) {
               >
                 <MDEditor
                   value={content}
-                  onChange={(val) => setContent(val || '')}
+                  // biome-ignore lint: MDEditor requires this pattern for onChange
+                  onChange={(val: any) => setContent(val || '')}
                   preview="edit"
                   hideToolbar={false}
                   visibleDragbar={false}
